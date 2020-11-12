@@ -5,7 +5,12 @@ Here is a univesal wallet built on `HD wallet` that can be used to manage multip
 ## 1. Requirement
 Here are packages and tools you need to install before using the wallet.
 - HD Wallet. https://github.com/dan-da/hd-wallet-derive#installation-and-running 
--  Python libraries: web3, bit.
+- In Gitbash: `git clone https://github.com/dan-da/hd-wallet-derive.git`
+- In command prompt: `php -r "readfile('https://getcomposer.org/installer');" | php`
+- Install HD wallet: `php -d pcre.jit=0 composer.phar install`
+- Create symlink in Gitbash opened administrator:  `export MSYS=winsymlinks:nativestrict`
+- In Gitbash run this in the folder outside hd-wallet: `ln -s hd-wallet-derive/hd-wallet-derive.php derive`
+-  Python libraries: web3, bit, php.
 
 ## 2. Clone Github
 Using Gitbash to clone this repo to your local drive.
