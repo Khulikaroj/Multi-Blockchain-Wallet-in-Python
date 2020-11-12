@@ -24,7 +24,8 @@ Within wallet directory, run `wallet.py` in Anaconda Prompt.
 - `python wallet.py`
 
 ## 5. How to use functions to transfer coins?
-To transfer coins, use these functions,
+To transfer coins, use these functions in Anaconda Prompt,
+- `from wallet import *`
 - `create_tx(COIN_NAME,"ADD SENDER ACCOUNT","ADD RECIPIENT ACCOUNT",AMOUNT)`
 - `send_tx(COIN_NAME,"ADD SENDER ACCOUNT","ADD RECIPIENT ACCOUNT",AMOUNT)`
 
