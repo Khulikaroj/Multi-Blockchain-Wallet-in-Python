@@ -12,11 +12,7 @@ w3.middleware_onion.inject(geth_poa_middleware, layer=0)
 from bit import PrivateKeyTestnet
 from bit.network import NetworkAPI
 
-mnemonic = os.getenv('MNEMONIC')
-coins = {"eth","btc-test"}
-numderives = 3
-
-#Derive Wallet
+#Derive_Wallet Function
 def derive_wallets(mnemonic, coin, numderive):
     command = f'php ./hd-wallet-derive/hd-wallet-derive.php -g --mnemonic="{mnemonic}" --numderive="{numderive}" --coin="{coin}" --format=json' 
     p = subprocess.Popen(command, stdout=subprocess.PIPE, shell=True)
@@ -24,11 +20,14 @@ def derive_wallets(mnemonic, coin, numderive):
     keys = json.loads(output)
     return  keys
 
+#Generate accounts and keys for coin in coins
+mnemonic = os.getenv('MNEMONIC')
+coins = {"eth","btc-test"}
 keys = {}
 for coin in coins:
     keys[coin]= derive_wallets(mnemonic, coin, numderive=2)
 
-#priv_key_to_account function
+#Priv_key_to_account function
 eth_PrivateKey = keys["eth"][0]['privkey']
 btc_PrivateKey = keys['btc-test'][0]['privkey']
 print(json.dumps(eth_PrivateKey, indent=4, sort_keys=True))
@@ -42,7 +41,7 @@ def priv_key_to_account(coin,key):
     elif coin == BTCTEST:
         return PrivateKeyTestnet(key)
 
-#create_tx function
+#Create_tx function
 def create_tx(coin,account, recipient, amount):
     if coin == ETH: 
         gasEstimate = w3.eth.estimateGas({"from":eth_acc.address, "to":recipient, "value": amount})
@@ -57,7 +56,7 @@ def create_tx(coin,account, recipient, amount):
     elif coin == BTCTEST:
         return PrivateKeyTestnet.prepare_transaction(account.address, [(recipient, amount, BTC)])
 
-#send_tx function
+#Send_tx function
 def send_tx(coin,account,recipient, amount):
     tx = create_tx(coin, account, recipient, amount)
     if coin == ETH:
@@ -75,10 +74,10 @@ def send_tx(coin,account,recipient, amount):
 eth_acc = priv_key_to_account(ETH, eth_PrivateKey)
 btc_acc = priv_key_to_account(BTCTEST,btc_PrivateKey)
 
-#send BTC-test 
-create_tx(BTCTEST,btc_acc,"mjCdMZyGzYSE7gCHN7DomFfxysqsTXpGyH", 0.000000001)
-send_tx(BTCTEST,btc_acc,"mjCdMZyGzYSE7gCHN7DomFfxysqsTXpGyH", 0.000000001)
+#Example of using functions to send BTC-test 
+#create_tx(BTCTEST,btc_acc,"mjCdMZyGzYSE7gCHN7DomFfxysqsTXpGyH", 0.000000001)
+#send_tx(BTCTEST,btc_acc,"mjCdMZyGzYSE7gCHN7DomFfxysqsTXpGyH", 0.000000001)
 
-#send ETH
-create_tx(ETH,eth_acc,"0x8B63736c9D91adeE61c9e773E9986bf76457Ea3a", 0.00001)
-send_tx(ETH,eth_acc,"0x8B63736c9D91adeE61c9e773E9986bf76457Ea3a", 0.00001)
+#Example of using functions to send ETH
+#create_tx(ETH,eth_acc,"0x8B63736c9D91adeE61c9e773E9986bf76457Ea3a", 0.00001)
+#send_tx(ETH,eth_acc,"0x8B63736c9D91adeE61c9e773E9986bf76457Ea3a", 0.00001)
